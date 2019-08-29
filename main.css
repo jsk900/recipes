@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css?family=Nunito&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
 }
 
@@ -45,7 +45,7 @@ label {
   margin-right: 20px;
 }
 
-input[type="text"] {
+input[type='text'] {
   padding: 10px;
   width: 250px;
   height: 40px;
@@ -73,7 +73,7 @@ button:hover {
 
 .more {
   float: right;
-  margin: -20px 20px 0 0;
+  margin: 0 20px 0 0;
   border: none;
   outline: none;
   font-size: 1em;
@@ -105,6 +105,10 @@ figure {
   overflow: visible;
 }
 
+figure:hover {
+  transform: scale(1.2);
+}
+
 img {
   border: 5px solid yellow;
   padding: 5px;
@@ -121,4 +125,9 @@ figcaption {
   text-align: center;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+errorClass h1 {
+  font-size: 3em;
+  text-align: center;
 }

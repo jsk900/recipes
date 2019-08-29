@@ -1,4 +1,5 @@
 // Joseph's Key : fa5cd8e939c304ba5377d606a6972ee9
+// Joseph's key2 : ca01bbdccb3388aa0ae14f1c5c2d86eb
 // Lara's Key : 96c1916f7c7082ce15319bb2265ead09
 // Benjamin's Key : ceefccfbaf440cbb8475bec175f6c159
 // Tom's Key : 6205dc4d00a179abf0524302289c5b80
@@ -6,10 +7,10 @@
 //https://www.food2fork.com/api/search?key=96c1916f7c7082ce15319bb2265ead09&q=chicken%20breast&page=10
 
 //Globals
-let url = "https://www.food2fork.com/api/search";
-const key = "6205dc4d00a179abf0524302289c5b80";
+let url = 'https://www.food2fork.com/api/search';
+const key = 'fa5cd8e939c304ba5377d606a6972ee9';
 const keyedUrl = `${url}?key=${key}`;
-let keyUrlSearch = "";
+let keyUrlSearch = '';
 let pageCounter = 1;
 let figureCounter = 0;
 let moreBtn;
@@ -19,11 +20,10 @@ let oneTime = true;
 
 //Get DOM elements
 const input = document.querySelector('input[type="text"]');
-const search = document.querySelector("button");
-const figure = document.querySelector("figure");
-const section = document.querySelector("section");
-const zutaten = document.querySelector(".zutaten");
-const form = document.querySelector(".form");
+const search = document.querySelector('button');
+const figure = document.querySelector('figure');
+const section = document.querySelector('section');
+const form = document.querySelector('.form');
 input.focus();
 
 const fetchData = key => {
@@ -33,10 +33,11 @@ const fetchData = key => {
     .then(res =>
       res.recipes.map(recipe => placeData(recipe, res.recipes.length))
     )
-    .catch(error => console.log(error));
+    .catch(error => errorHandler(error));
 };
 
 const checkStatus = response => {
+  console.log(response.ok);
   if (response.ok) {
     return Promise.resolve(response);
   } else {
@@ -55,9 +56,14 @@ const placeData = (recipe, recipes) => {
   }
   objectLength = recipes;
   figureCounter++;
-  let figure = document.createElement("figure");
-  let imagePlaceholder = document.createElement("img");
-  let figcaption = document.createElement("figcaption");
+  let figure = document.createElement('figure');
+  let href = document.createElement('a');
+  let imagePlaceholder = document.createElement('img');
+  let figcaption = document.createElement('figcaption');
+
+  href.href = `${recipe.f2f_url}`;
+  href.setAttribute('target', 'blank');
+  console.log(href);
   imagePlaceholder.src = recipe.image_url;
   if (recipe.title.length > 50) {
     let newTitle = recipe.title.substring(0, 30);
@@ -65,20 +71,20 @@ const placeData = (recipe, recipes) => {
   } else {
     figcaption.innerHTML = recipe.title;
   }
-
-  figure.appendChild(imagePlaceholder);
+  href.appendChild(imagePlaceholder);
+  figure.appendChild(href);
   figure.appendChild(figcaption);
   section.appendChild(figure);
 
   if (figureCounter === objectLengthSave) {
     objectLengthSave += objectLength;
-    moreBtn = document.createElement("div");
-    moreBtn.innerHTML = "more";
-    moreBtn.classList.add("more");
+    moreBtn = document.createElement('div');
+    moreBtn.innerHTML = 'more';
+    moreBtn.classList.add('more');
 
     form.appendChild(moreBtn);
 
-    moreBtn.addEventListener("click", () => {
+    moreBtn.addEventListener('click', () => {
       pageCounter++;
       let keyUrlMore = `${keyUrlSearch}&page=${pageCounter}`;
       deleteMore();
@@ -88,21 +94,18 @@ const placeData = (recipe, recipes) => {
   }
 };
 
-search.addEventListener("click", e => {
+search.addEventListener('click', e => {
   e.preventDefault();
-
-  // pageCounter = 1;
   keyUrlSearch = `${keyedUrl}&q=${input.value}`;
-  input.value = "";
+  input.value = '';
   input.focus();
-  // console.log(keyUrlSearch);
   deleteMore();
   deleteList();
   fetchData(keyUrlSearch);
 });
 
 const deleteList = () => {
-  const [...figureList] = document.querySelectorAll("section figure");
+  const [...figureList] = document.querySelectorAll('section figure');
 
   if (figureList.length > 1) {
     figureList.map(figure => section.removeChild(figure));
@@ -110,9 +113,19 @@ const deleteList = () => {
 };
 
 const deleteMore = () => {
-  const deleteMore = document.querySelector(".more");
+  const deleteMore = document.querySelector('.more');
   console.dir(deleteMore);
   if (deleteMore != null) {
     form.removeChild(deleteMore);
   }
+};
+
+const errorHandler = error => {
+  const errContainer = document.createElement('div');
+  errContainer.classList.add = 'errorClass';
+  const errorText = document.createElement('h1');
+  errorText.innerHTML = `There seems to be a problem <br> ${error}`;
+  errContainer.appendChild(errorText);
+  section.style = 'display:flex; justify-content: center; align-items: center;';
+  section.appendChild(errContainer);
 };
