@@ -13,19 +13,9 @@ body {
   background-color: bisque;
 }
 
-section {
-  width: 50%;
-  height: auto;
-  background-color: bisque;
-  color: #333333;
-  overflow: hidden;
-  margin-top: 6em;
-}
-
 .form {
   width: 100%;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: flex-start;
   background-color: cyan;
   border-bottom: 2px solid #333333;
@@ -33,6 +23,7 @@ section {
   margin-bottom: 20px;
   overflow: hidden;
 }
+
 form {
   width: 80%;
   margin: 5px 0 5px 10px;
@@ -62,6 +53,7 @@ button {
   text-align: center;
   background-color: yellow;
   padding: 3px;
+  margin-left: 10px;
   width: 80px;
   height: 40px;
   font-weight: bold;
@@ -85,6 +77,7 @@ button:hover {
   font-weight: bold;
   text-transform: uppercase;
 }
+
 .more:hover {
   cursor: pointer;
 }
@@ -114,7 +107,7 @@ img {
   padding: 5px;
   width: 150px;
   height: 120px;
-  object-fit: contain;
+  object-fit: cover;
   -webkit-box-shadow: 7px 7px 5px -1px rgba(219, 115, 46, 1);
   -moz-box-shadow: 7px 7px 5px -1px rgba(219, 115, 46, 1);
   box-shadow: 7px 7px 5px -1px rgba(219, 115, 46, 1);

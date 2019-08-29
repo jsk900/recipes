@@ -4,8 +4,6 @@
 // Benjamin's Key : ceefccfbaf440cbb8475bec175f6c159
 // Tom's Key : 6205dc4d00a179abf0524302289c5b80
 
-//https://www.food2fork.com/api/search?key=96c1916f7c7082ce15319bb2265ead09&q=chicken%20breast&page=10
-
 //Globals
 let url = 'https://www.food2fork.com/api/search';
 const key = 'fa5cd8e939c304ba5377d606a6972ee9';
@@ -24,6 +22,7 @@ const search = document.querySelector('button');
 const figure = document.querySelector('figure');
 const section = document.querySelector('section');
 const form = document.querySelector('.form');
+
 input.focus();
 
 const fetchData = key => {
