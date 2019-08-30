@@ -10,82 +10,80 @@
 
 body {
   width: 100%;
-  background-color: bisque;
+  background-color: #beb9b9;
 }
 
 .form {
   width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: cyan;
-  border-bottom: 2px solid #333333;
+  height: 60px;
+  background-color: #424040;
   position: fixed;
-  margin-bottom: 20px;
   overflow: hidden;
 }
 
 form {
   width: 100%;
-  margin: 5px 0 5px 10px;
+  margin-top: 4px;
   overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 label {
-  width: 200px;
-  font-size: 2em;
-  margin-right: 20px;
+  font-size: 1em;
+  font-weight: bold;
+  color: #ffd99f;
 }
 
 input[type='text'] {
   padding: 10px;
-  width: 250px;
-  height: 40px;
-  font-size: 1.2em;
+  width: 180px;
+  height: 35px;
+  margin: 10px;
+  font-size: 0.8em;
   border: none;
   outline: none;
-  background-color: #d3e7e7;
+  color: #424040;
+  background-color: #ffd99f;
 }
 
 button {
   border: none;
-  outline: none;
-  font-size: 1em;
+  outline: 1px solid #ffd99f;
+  font-size: 0.7em;
   text-align: center;
-  background-color: yellow;
-  padding: 3px 3px 0 3px;
+  color: #ffd99f;
+  background-color: transparent;
+  padding: 3px;
   margin-left: 10px;
-  width: 80px;
-  height: 40px;
+  width: 60px;
+  height: 30px;
   font-weight: bold;
   text-transform: uppercase;
-}
-button:hover {
   cursor: pointer;
 }
 
 .more {
-  float: right;
-  margin: 7px 30px 0 0;
+  margin-left: 20px;
   border: none;
-  outline: none;
-  font-size: 1em;
+  outline: 1px solid #ffd99f;
+  font-size: 0.7em;
   text-align: center;
-  background-color: yellow;
-  padding: 10px 3px 0 3px;
-  width: 80px;
-  height: 40px;
+  background-color: transparent;
+  color: #ffd99f;
+  padding: 3px;
+  width: 60px;
+  height: 30px;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-.more:hover {
   cursor: pointer;
+  display: inline-block;
 }
 
 section {
-  width: 100%;
-  margin-top: 6em;
-  color: #333333;
+  margin-top: 4em;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
@@ -96,9 +94,12 @@ section {
 
 figure {
   margin: 20px 10px 10px 20px;
-  width: 150px;
-  height: 170px;
+  width: 200px;
+  height: 290px;
   overflow: visible;
+  -webkit-box-shadow: 3px 3px 5px 0px #2a292b;
+  -moz-box-shadow: 3px 3px 5px 0px #2a292b;
+  box-shadow: 3px 3px 5px 0px #2a292b;
 }
 
 figure:hover {
@@ -106,24 +107,26 @@ figure:hover {
 }
 
 img {
-  border: 5px solid yellow;
-  padding: 5px;
-  width: 150px;
-  height: 120px;
+  width: 200px;
+  height: 240px;
   object-fit: cover;
-  -webkit-box-shadow: 7px 7px 5px -1px rgba(219, 115, 46, 1);
-  -moz-box-shadow: 7px 7px 5px -1px rgba(219, 115, 46, 1);
-  box-shadow: 7px 7px 5px -1px rgba(219, 115, 46, 1);
 }
 
 figcaption {
   font-size: 0.8em;
   text-align: center;
   font-weight: bold;
+  height: 50px;
+  padding: 10px;
+  margin-top: -5px;
   margin-bottom: 20px;
+  color: #424040;
+  background-color: #f0e9e9;
+  overflow: visible;
 }
 
 errorClass h1 {
   font-size: 3em;
   text-align: center;
+  color: #424040;
 }

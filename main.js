@@ -4,6 +4,8 @@
 // Benjamin's Key : ceefccfbaf440cbb8475bec175f6c159
 // Tom's Key : 6205dc4d00a179abf0524302289c5b80
 
+window.onload = () => fetchData(keyedUrl);
+
 //Globals
 let url = 'https://www.food2fork.com/api/search';
 const key = 'ca01bbdccb3388aa0ae14f1c5c2d86eb';
@@ -15,6 +17,7 @@ let moreBtn;
 let objectLength = 0;
 let objectLengthSave = 0;
 let oneTime = true;
+let searchEnabled = false;
 
 //Get DOM elements
 const input = document.querySelector('input[type="text"]');
@@ -52,8 +55,11 @@ const placeData = (recipe, recipes) => {
     objectLengthSave = recipes;
     oneTime = false;
   }
-  objectLength = recipes;
-  figureCounter++;
+  if (searchEnabled) {
+    objectLength = recipes;
+    figureCounter++;
+  }
+
   let figure = document.createElement('figure');
   let href = document.createElement('a');
   let imagePlaceholder = document.createElement('img');
@@ -73,9 +79,11 @@ const placeData = (recipe, recipes) => {
   figure.appendChild(figcaption);
   section.appendChild(figure);
 
+  console.log(figureCounter, objectLengthSave, searchEnabled);
+
   if (figureCounter === objectLengthSave) {
     objectLengthSave += objectLength;
-    moreBtn = document.createElement('div');
+    moreBtn = document.createElement('button');
     moreBtn.innerHTML = 'more';
     moreBtn.classList.add('more');
 
@@ -93,6 +101,7 @@ const placeData = (recipe, recipes) => {
 
 search.addEventListener('click', e => {
   e.preventDefault();
+  searchEnabled = true;
   keyUrlSearch = `${keyedUrl}&q=${input.value}`;
   input.value = '';
   input.focus();
