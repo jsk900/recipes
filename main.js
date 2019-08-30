@@ -6,7 +6,7 @@
 
 //Globals
 let url = 'https://www.food2fork.com/api/search';
-const key = 'fa5cd8e939c304ba5377d606a6972ee9';
+const key = 'ca01bbdccb3388aa0ae14f1c5c2d86eb';
 const keyedUrl = `${url}?key=${key}`;
 let keyUrlSearch = '';
 let pageCounter = 1;
@@ -21,7 +21,7 @@ const input = document.querySelector('input[type="text"]');
 const search = document.querySelector('button');
 const figure = document.querySelector('figure');
 const section = document.querySelector('section');
-const form = document.querySelector('.form');
+const form = document.querySelector('form');
 
 input.focus();
 
@@ -36,7 +36,6 @@ const fetchData = key => {
 };
 
 const checkStatus = response => {
-  console.log(response.ok);
   if (response.ok) {
     return Promise.resolve(response);
   } else {
@@ -62,7 +61,6 @@ const placeData = (recipe, recipes) => {
 
   href.href = `${recipe.f2f_url}`;
   href.setAttribute('target', 'blank');
-  console.log(href);
   imagePlaceholder.src = recipe.image_url;
   if (recipe.title.length > 50) {
     let newTitle = recipe.title.substring(0, 30);
@@ -113,7 +111,6 @@ const deleteList = () => {
 
 const deleteMore = () => {
   const deleteMore = document.querySelector('.more');
-  console.dir(deleteMore);
   if (deleteMore != null) {
     form.removeChild(deleteMore);
   }
