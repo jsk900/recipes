@@ -8,15 +8,10 @@ window.onload = () => fetchData(keyedUrl);
 
 //Globals
 let url = 'https://www.food2fork.com/api/search';
-const key = 'ca01bbdccb3388aa0ae14f1c5c2d86eb';
+const key = 'fa5cd8e939c304ba5377d606a6972ee9';
 const keyedUrl = `${url}?key=${key}`;
 let keyUrlSearch = '';
 let pageCounter = 1;
-let figureCounter = 0;
-let moreBtn;
-let objectLength = 0;
-let objectLengthSave = 0;
-let oneTime = true;
 let searchEnabled = false;
 
 //Get DOM elements
@@ -25,6 +20,7 @@ const search = document.querySelector('button');
 const figure = document.querySelector('figure');
 const section = document.querySelector('section');
 const form = document.querySelector('form');
+const footer = document.querySelector('footer');
 
 input.focus();
 
@@ -32,9 +28,7 @@ const fetchData = key => {
   fetch(key)
     .then(checkStatus)
     .then(parseJSON)
-    .then(res =>
-      res.recipes.map(recipe => placeData(recipe, res.recipes.length))
-    )
+    .then(res => res.recipes.map(recipe => placeData(recipe)))
     .catch(error => errorHandler(error));
 };
 
@@ -50,21 +44,11 @@ const parseJSON = response => {
   return response.json();
 };
 
-const placeData = (recipe, recipes) => {
-  if (oneTime) {
-    objectLengthSave = recipes;
-    oneTime = false;
-  }
-  if (searchEnabled) {
-    objectLength = recipes;
-    figureCounter++;
-  }
-
+const placeData = recipe => {
   let figure = document.createElement('figure');
   let href = document.createElement('a');
   let imagePlaceholder = document.createElement('img');
   let figcaption = document.createElement('figcaption');
-
   href.href = `${recipe.f2f_url}`;
   href.setAttribute('target', 'blank');
   imagePlaceholder.src = recipe.image_url;
@@ -78,37 +62,7 @@ const placeData = (recipe, recipes) => {
   figure.appendChild(href);
   figure.appendChild(figcaption);
   section.appendChild(figure);
-
-  console.log(figureCounter, objectLengthSave, searchEnabled);
-
-  if (figureCounter === objectLengthSave) {
-    objectLengthSave += objectLength;
-    moreBtn = document.createElement('button');
-    moreBtn.innerHTML = 'more';
-    moreBtn.classList.add('more');
-
-    form.appendChild(moreBtn);
-
-    moreBtn.addEventListener('click', () => {
-      pageCounter++;
-      let keyUrlMore = `${keyUrlSearch}&page=${pageCounter}`;
-      deleteMore();
-      input.focus();
-      fetchData(keyUrlMore);
-    });
-  }
 };
-
-search.addEventListener('click', e => {
-  e.preventDefault();
-  searchEnabled = true;
-  keyUrlSearch = `${keyedUrl}&q=${input.value}`;
-  input.value = '';
-  input.focus();
-  deleteMore();
-  deleteList();
-  fetchData(keyUrlSearch);
-});
 
 const deleteList = () => {
   const [...figureList] = document.querySelectorAll('section figure');
@@ -118,10 +72,12 @@ const deleteList = () => {
   }
 };
 
-const deleteMore = () => {
-  const deleteMore = document.querySelector('.more');
-  if (deleteMore != null) {
-    form.removeChild(deleteMore);
+const infinite = () => {
+  if (searchEnabled) {
+    pageCounter++;
+    let keyUrlMore = `${keyUrlSearch}&page=${pageCounter}`;
+    input.focus();
+    fetchData(keyUrlMore);
   }
 };
 
@@ -134,3 +90,27 @@ const errorHandler = error => {
   section.style = 'display:flex; justify-content: center; align-items: center;';
   section.appendChild(errContainer);
 };
+
+//Listeners
+search.addEventListener('click', e => {
+  e.preventDefault();
+  searchEnabled = true;
+  keyUrlSearch = `${keyedUrl}&q=${input.value}`;
+  input.value = '';
+  input.focus();
+  pageCounter = 1;
+  deleteList();
+  fetchData(keyUrlSearch);
+});
+
+//Very neat code to handle infinite scrolling
+document.addEventListener('DOMContentLoaded', () => {
+  let options = {
+    root: null,
+    rootMargins: '0px',
+    threshold: 0.2
+  };
+
+  const observer = new IntersectionObserver(infinite, options);
+  observer.observe(footer);
+});
