@@ -1,32 +1,33 @@
 window.onload = () => fetchData(keyedUrl);
 
 //Globals
-let url = "https://www.food2fork.com/api/search";
-const key = "ceefccfbaf440cbb8475bec175f6c159";
-const keyedUrl = `${url}?key=${key}`;
-let keyUrlSearch = "";
+let url = 'https://api.spoonacular.com/food/products/search?';
+const key = '18628d0747e54404a4bd19310dec63e9';
+let query = 'chicken';
+const keyedUrl = `${url}query=${query}&apiKey=${key}`;
+let keyUrlSearch = '';
 let pageCounter = 1;
 let searchEnabled = false;
 
 //Get DOM elements
 const input = document.querySelector('input[type="text"]');
-const search = document.querySelector("button");
-const figure = document.querySelector("figure");
-const section = document.querySelector("section");
-const form = document.querySelector("form");
-const footer = document.querySelector("footer");
+const search = document.querySelector('button');
+const figure = document.querySelector('figure');
+const section = document.querySelector('section');
+const form = document.querySelector('form');
+const footer = document.querySelector('footer');
 
 input.focus();
 
-const fetchData = key => {
+const fetchData = (key) => {
   fetch(key)
     .then(checkStatus)
     .then(parseJSON)
-    .then(res => res.recipes.map(recipe => placeData(recipe)))
-    .catch(error => errorHandler(error));
+    .then((res) => res.products.map((product) => placeData(product)))
+    .catch((error) => errorHandler(error));
 };
 
-const checkStatus = response => {
+const checkStatus = (response) => {
   if (response.ok) {
     return Promise.resolve(response);
   } else {
@@ -34,23 +35,23 @@ const checkStatus = response => {
   }
 };
 
-const parseJSON = response => {
+const parseJSON = (response) => {
   return response.json();
 };
 
-const placeData = recipe => {
-  let figure = document.createElement("figure");
-  let href = document.createElement("a");
-  let imagePlaceholder = document.createElement("img");
-  let figcaption = document.createElement("figcaption");
-  href.href = `${recipe.f2f_url}`;
-  href.setAttribute("target", "blank");
-  imagePlaceholder.src = recipe.image_url;
-  if (recipe.title.length > 50) {
-    let newTitle = recipe.title.substring(0, 30);
+const placeData = (product) => {
+  let figure = document.createElement('figure');
+  let href = document.createElement('a');
+  let imagePlaceholder = document.createElement('img');
+  let figcaption = document.createElement('figcaption');
+  // href.href = `${recipe.f2f_url}`;
+  // href.setAttribute('target', 'blank');
+  imagePlaceholder.src = product.image;
+  if (product.title.length > 50) {
+    let newTitle = product.title.substring(0, 30);
     figcaption.innerHTML = newTitle;
   } else {
-    figcaption.innerHTML = recipe.title;
+    figcaption.innerHTML = product.title;
   }
   href.appendChild(imagePlaceholder);
   figure.appendChild(href);
@@ -59,10 +60,10 @@ const placeData = recipe => {
 };
 
 const deleteList = () => {
-  const [...figureList] = document.querySelectorAll("section figure");
+  const [...figureList] = document.querySelectorAll('section figure');
 
   if (figureList.length > 1) {
-    figureList.map(figure => section.removeChild(figure));
+    figureList.map((figure) => section.removeChild(figure));
   }
 };
 
@@ -75,22 +76,23 @@ const infinite = () => {
   }
 };
 
-const errorHandler = error => {
-  const errContainer = document.createElement("div");
-  errContainer.classList.add = "errorClass";
-  const errorText = document.createElement("h1");
+const errorHandler = (error) => {
+  const errContainer = document.createElement('div');
+  errContainer.classList.add = 'errorClass';
+  const errorText = document.createElement('h1');
   errorText.innerHTML = `There seems to be a problem <br> ${error}`;
   errContainer.appendChild(errorText);
-  section.style = "display:flex; justify-content: center; align-items: center;";
+  section.style = 'display:flex; justify-content: center; align-items: center;';
   section.appendChild(errContainer);
 };
 
 //Listeners
-search.addEventListener("click", e => {
+search.addEventListener('click', (e) => {
   e.preventDefault();
   searchEnabled = true;
-  keyUrlSearch = `${keyedUrl}&q=${input.value}`;
-  input.value = "";
+  query = input.value;
+  keyUrlSearch = `${url}&query=${query}&apiKey=${key}`;
+  input.value = '';
   input.focus();
   pageCounter = 1;
   deleteList();
@@ -98,11 +100,11 @@ search.addEventListener("click", e => {
 });
 
 //Very neat code to handle infinite scrolling
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   let options = {
     root: null,
-    rootMargins: "0px",
-    threshold: 0.2
+    rootMargins: '0px',
+    threshold: 0.2,
   };
 
   const observer = new IntersectionObserver(infinite, options);
